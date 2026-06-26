@@ -106,7 +106,7 @@ export default function App() {
   } | null>(null);
 
   const logoInputRef = useRef<HTMLInputElement>(null);
- const clienteDebounce = useRef<ReturnType<typeof setTimeout>>();
+  const clienteDebounce = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     carregarEmpresa();
@@ -186,22 +186,34 @@ export default function App() {
   const handleClienteInput = useCallback(
     (valor: string) => {
       setClienteNome(valor);
-      clearTimeout(clienteDebounce.current);
+
+      if (clienteDebounce.current) {
+        clearTimeout(clienteDebounce.current);
+      }
+
       if (valor.length < 2) {
         setShowClienteSugestoes(false);
+        setClienteSugestoes([]);
         return;
       }
       clienteDebounce.current = setTimeout(() => {
         const filtro = clientesBanco.filter((c) =>
           c.nome.toLowerCase().includes(valor.toLowerCase()),
         );
+
         setClienteSugestoes(filtro.slice(0, 6));
         setShowClienteSugestoes(true);
       }, 200);
     },
     [clientesBanco],
   );
-
+  useEffect(() => {
+    return () => {
+      if (clienteDebounce.current) {
+        clearTimeout(clienteDebounce.current);
+      }
+    };
+  }, []);
   const selecionarCliente = (c: ClienteDB) => {
     setClienteNome(c.nome);
     setClienteCnpj(c.cnpj);
