@@ -10,7 +10,7 @@ import {
 } from "firebase/firestore";
 import { db } from "./lib/firebase";
 import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
-import { OrcamentoPDF } from "./components/OrcamentoPDF";
+import { OrcamentoPDF } from "./pdf/OrcamentoPDF";
 
 // ─── Tipos ────────────────────────────────────────────────────────────────────
 
