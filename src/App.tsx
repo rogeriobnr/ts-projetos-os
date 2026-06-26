@@ -331,7 +331,7 @@ export default function App() {
       }
       const ref = await addDoc(collection(db, "orcamentos"), {
         ...dadosAtuais,
-        logoBase64: undefined,
+        logoBase64: null,
         dataCriacao: new Date().toISOString(),
       });
       showToast(`OS #${numeroOS} salva! (${ref.id.slice(0, 8)}…)`, "ok");
